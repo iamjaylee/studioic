@@ -19,7 +19,7 @@
         </cloud:param>
       </cc:integration-system>
 </cc:workday-in>
-<cc:local-out id="SayHelloToWorkday" endpoint="vm://wcc/PutIntegrationMessage">
+<cc:local-out id="SayHelloToWorkday" routes-response-to="AsyncMediation" endpoint="vm://wcc/PutIntegrationMessage">
 <cc:set name="is.message.severity" value="'INFO'"/>
 <cc:set name="is.message.summary" value="'Hello ' + lp.getSimpleData('name') + ' !'"/>
 <cc:set name="is.message.detail" value="'Hello ' + lp.getSimpleData('name') + ', congratulations on running your first Workday Cloud Integration.' "/>
@@ -32,6 +32,15 @@
                 </cc:log>
                 <cc:cloud-log id="CloudLog" level="info" message="Hellooolllllll @{lp.getSimpleData('name')}" message-details="Hello  @{ lp.getSimpleData('name') } congratulations on running your first Workday Cloud Integration." output-file-type="HTML"/>
                 <cc:store id="Store" output="variable" output-variable="store.blob" input="variable" input-variable="cloud-log-content" createDocumentReference="true" summary="Hello cloud-log" title="Hello.html"/>
+            </cc:steps>
+        </cc:async-mediation>
+        <cc:async-mediation id="AsyncMediation">
+            <cc:steps>
+                <cc:log id="Log">
+                    <cc:log-message>
+                        <cc:message-content/>
+                    </cc:log-message>
+                </cc:log>
             </cc:steps>
         </cc:async-mediation>
 </cc:assembly>
